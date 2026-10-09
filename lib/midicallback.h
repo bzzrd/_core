@@ -245,6 +245,15 @@ void midi_control_change (uint8_t channel, uint8_t control, uint8_t value) {
           probability_of_random_jump = (255 - new_adcvalue) * 100 / 128;
         }
       break;
+  case cc_knobx:
+      midi_potx = value;
+      break;
+  case cc_knoby:
+      midi_poty = value;
+      break;
+  case cc_knobz:
+      midi_potz = value;
+      break;
   default:
     return;
   }

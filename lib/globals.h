@@ -169,11 +169,21 @@ LEDS *leds;
 LEDText *ledtext;
 #endif
 
+#define BUTTONMATRIX_BUTTONS_MAX 20
+
+
 #ifdef INCLUDE_MIDI
 #define MIDIOUTS 6
 MidiOut *midiout[6];
 bool midi_input_activated = false;
 #endif
+
+// Midi pots control
+int midi_potx = 0;
+int midi_poty = 0;
+int midi_potz = 0;
+bool midi_buttons[BUTTONMATRIX_BUTTONS_MAX];
+int fx_button = -1;
 
 // setup some constants for CCs
 const uint8_t cc_knobx = 12;

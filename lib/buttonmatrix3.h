@@ -2,10 +2,19 @@
 
 #include "buttonmatrix3.pio.h"
 #include "sort.h"
-
-#define BUTTONMATRIX_BUTTONS_MAX 20
 #define BUTTONMATRIX_ROWS 5
 #define BUTTONMATRIX_COLS 4
+
+uint32_t bitArrayToInt32(bool arr[], int count)
+{
+    uint32_t ret = 0;
+    uint32_t tmp;
+    for (int i = 0; i < count; i++) {
+        tmp = arr[i];
+        ret |= tmp << (count - i - 1);
+    }
+    return ret;
+}
 
 typedef struct ButtonMatrix {
   PIO pio;
@@ -157,12 +166,23 @@ void ButtonMatrix_read(ButtonMatrix *bm) {
 
   // read new value;
   uint32_t value = 0;
+
+  #if MIDI_NOTE_KEY == 1
+    uint32_t midi_value = 0;
+    midi_value = bitArrayToInt32(midi_buttons,BUTTONMATRIX_BUTTONS_MAX);
+  #endif
+  
   pio_sm_clear_fifos(bm->pio, bm->sm);
   sleep_ms(1);
   if (pio_sm_is_rx_fifo_empty(bm->pio, bm->sm)) {
     return;
   }
   value = pio_sm_get(bm->pio, bm->sm);
+
+  #if MIDI_NOTE_KEY == 1
+    value = value | midi_value;
+  #endif
+  
 
   if (value == bm->last_value) {
     return;

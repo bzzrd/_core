@@ -10,6 +10,9 @@
 // blocks per second is defined by SAMPLES_PER_BUFFER
 // which can be modified
 
+#define MIDI_NOTE_KEY 1
+#define MIDI_CC 1
+
 #define MAX_VOLUME 255
 #define BLOCKS_PER_SECOND SAMPLE_RATE / SAMPLES_PER_BUFFER
 static int PHASE_DIVISOR = 4;
